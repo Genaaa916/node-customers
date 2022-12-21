@@ -31,7 +31,7 @@ app.put('/api/customers/:id', (req, res) => {
     customers.splice(index, 1, updatedcustomer);
     res.json(updatedcustomer);
 });
-// add new customer
+// add new customer, generate id with date.now
 app.post('/api/customers', (req, res) => {
     const newCustomer = {'id': Date.now().toString(), ...req.body};
     customers = [...customers, newCustomer];
