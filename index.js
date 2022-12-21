@@ -16,6 +16,21 @@ app.get('/api/movies', (req, res) => {
     res.json(movies);
 });
 
+// delete movie by id
+app.delete('/api/movies/:id', (req, res) => {
+    const id = req.params.id;
+    movies = movies.filter(movie => movie.id !== id);
+    res.status(204).end();
+});
+
+//update movie by id
+app.put('/api/movies/:id', (req, res) => {
+    const id = req.params.id;
+    const updatedMovie = {...req.body, id: id};
+    const index = movies.findIndex(movie => movie.id === id);
+    movies.splice(index, 1, updatedMovie);
+    res.json(updatedMovie);
+});
 // add new movie
 app.post('/api/movies', (req, res) => {
     const movie = req.body;
