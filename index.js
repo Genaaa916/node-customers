@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-const db = require('./db/dbconfig');
+const query = require('./db/customers');
+
 
 const app = express();  
 app.use(bodyParser.json());
@@ -13,16 +14,7 @@ const port = 3000;
   {id: '1588323375418', firstName: 'Peter', lastName: 'North', email: 'peter@north.com', phone: '901176'},
 ] */
 
-// get all customers
-app.get('/api/customers', (req, res) => {
-    db.query('SELECT * FROM customers', (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(result.rows);
-        }
-    })
-});
+
 
 // delete customer by id
 app.delete('/api/customers/:id', (req, res) => {
@@ -39,12 +31,7 @@ app.put('/api/customers/:id', (req, res) => {
     customers.splice(index, 1, updatedcustomer);
     res.json(updatedcustomer);
 });
-// add new customer, generate id with date.now
-app.post('/api/customers', (req, res) => {
-    const newCustomer = {'id': Date.now().toString(), ...req.body};
-    customers = [...customers, newCustomer];
-    res.json(newCustomer);
-});
+
 
 //get customer by id
 app.get('/api/customers/:id', (req, res) => {
