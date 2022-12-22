@@ -1,19 +1,27 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const db = require('./db/dbconfig');
+
 const app = express();  
 app.use(bodyParser.json());
 
 const port = 3000;
 // customers array
-let customers = [
+/* let customers = [
   {id: '1588323375416', firstName: 'John', lastName: 'Johnson', email: 'john@johnson.com', phone: '8233243'},
   {id: '1588323375417', firstName: 'Mary', lastName: 'Smith', email: 'mary@smith.com', phone: '6654113'},
   {id: '1588323375418', firstName: 'Peter', lastName: 'North', email: 'peter@north.com', phone: '901176'},
-]
+] */
 
 // get all customers
 app.get('/api/customers', (req, res) => {
-    res.json(customers);
+    db.query('SELECT * FROM customers', (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(result.rows);
+        }
+    })
 });
 
 // delete customer by id
@@ -50,4 +58,4 @@ app.get('/api/customers/:id', (req, res) => {
 // listen on port 3000
 app.listen(port, () => {
   console.log(`Server running on port http://localhost:${port}`)
-})  
+});
