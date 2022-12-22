@@ -4,16 +4,16 @@ const db = require('./dbconfig');
 const addCustomer = (req, res) => {
     const newCustomer = {'id': Date.now().toString(), ...req.body};
     const query = {
-        text: 'INSERT INTO customers (id, first_name, last_name, email, phone) VALUES ($1, $2, $3, $4, $5)',
-        values : [newCustomer.id, newCustomer.firstName, newCustomer.lastName, newCustomer.email, newCustomer.phone]
+        text: 'INSERT INTO customers (firstname, lastname, email, phone) VALUES ($1, $2, $3, $4)',
+        values : [newCustomer.firstname, newCustomer.lastname, newCustomer.email, newCustomer.phone]
     }
     db.query(query, (err, res) => {
-        if (err) {
-            console.log(err.stack);
-        } else {  
-            res.json(newCustomer);
+    if (err) {
+      return console.error('Error executing query', err.stack)
     }
-})
+  })
+
+  res.json(newCustomer);
 };
 
 // get all customers
