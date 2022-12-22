@@ -1,48 +1,18 @@
-const bodyParser = require('body-parser');
 const express = require('express');
-const query = require('./db/customers');
+const bodyParser = require('body-parser');
+const query = require('./db/customer');
 
-
-const app = express();  
+const app = express();
 app.use(bodyParser.json());
 
 const port = 3000;
-// customers array
-/* let customers = [
-  {id: '1588323375416', firstName: 'John', lastName: 'Johnson', email: 'john@johnson.com', phone: '8233243'},
-  {id: '1588323375417', firstName: 'Mary', lastName: 'Smith', email: 'mary@smith.com', phone: '6654113'},
-  {id: '1588323375418', firstName: 'Peter', lastName: 'North', email: 'peter@north.com', phone: '901176'},
-] */
 
+app.get("/api/customers", query.getAllCustomers);
+app.get("/api/customers/:id", query.getCustomerById);
+app.post("/api/customers", query.addCustomer);
+app.put("/api/customers/:id", query.updateCustomer);
+app.delete("/api/customers/:id", query.deleteCustomer);
 
-
-// delete customer by id
-app.delete('/api/customers/:id', (req, res) => {
-    const id = req.params.id;
-    customers = customers.filter(customer => customer.id !== id);
-    res.status(204).end();
-});
-
-//update customers by id
-app.put('/api/customers/:id', (req, res) => {
-    const id = req.params.id;
-    const updatedcustomer = {...req.body, id: id};
-    const index = customers.findIndex(customer => customer.id === id);
-    customers.splice(index, 1, updatedcustomer);
-    res.json(updatedcustomer);
-});
-
-
-//get customer by id
-app.get('/api/customers/:id', (req, res) => {
-    const id = req.params.id;
-    const customer = customers.filter(customer => customer.id === id);
-    if (customer.length > 0) {
-        res.json(customer);
-    } else {
-        res.status(404).end();
-}});
-// listen on port 3000
-app.listen(port, () => {
-  console.log(`Server running on port http://localhost:${port}`)
+app.listen(port, () => {{}
+  console.log(`Server is running on port ${port}.`);
 });
