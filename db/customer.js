@@ -1,4 +1,4 @@
-const db = require('./db/dbconfig');
+const db = require('./dbconfig');
 
 // add new customer, generate id with date.now
 const addCustomer = (req, res) => {
@@ -19,6 +19,38 @@ const addCustomer = (req, res) => {
 // get all customers
 const getAllCustomers = (req, res) => {
     db.query('SELECT * FROM customers', (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(result.rows);
+        }
+    })
+};
+
+const updateCustomer = (req, res) => {
+    const query = {
+        text: 'UPDATE customers SET first_name = $1, last_name = $2, email = $3, phone = $4 WHERE id = $5',
+        values: [req.body.firstName, req.body.lastName, req.body.email, req.body.phone, req.params.id]
+    }
+    db.query
+    (query
+        , (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(result.rows);
+        }
+    })
+};
+
+const deleteCustomer = (req, res) => {
+    const query = {
+        text: 'DELETE FROM customers WHERE id = $1',
+        values: [req.params.id]
+    }
+    db.query
+    (query
+        , (err, result) => {
         if (err) {
             console.log(err);
         } else {
@@ -49,5 +81,7 @@ const getCustomerById = (req, res) => {
 module.exports = { 
     getAllCustomers: getAllCustomers,
     getCustomerById: getCustomerById,
-    addCustomer: addCustomer
+    addCustomer: addCustomer,
+    updateCustomer: updateCustomer,
+    deleteCustomer: deleteCustomer
 }
