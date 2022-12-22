@@ -2,7 +2,7 @@ const db = require('./dbconfig');
 
 // add new customer, generate id with date.now
 const addCustomer = (req, res) => {
-    const newCustomer = {'id': Date.now().toString(), ...req.body};
+    const newCustomer = {...req.body};
     const query = {
         text: 'INSERT INTO customers (firstname, lastname, email, phone) VALUES ($1, $2, $3, $4)',
         values : [newCustomer.firstname, newCustomer.lastname, newCustomer.email, newCustomer.phone]
