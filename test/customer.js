@@ -3,6 +3,7 @@ const chaihttp = require('chai-http');
 const app = require('../index');
 
 chai.use(chaihttp);
+chai.should();
 
 const testCustomer = {
   firstname: 'Retep',
