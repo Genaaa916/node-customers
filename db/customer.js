@@ -27,6 +27,17 @@ const getAllCustomers = (req, res) => {
     })
 };
 
+// remove all customers
+const deleteAllCustomers = () => {
+  db.query('DELETE FROM customers', (err, res) => {
+    if (err) {
+      return console.error('Error executing query', err.stack)
+    }
+  })
+}
+
+
+// update customer
 const updateCustomer = (req, res) => {
     const query = {
         text: 'UPDATE customers SET first_name = $1, last_name = $2, email = $3, phone = $4 WHERE id = $5',
@@ -83,5 +94,6 @@ module.exports = {
     getCustomerById: getCustomerById,
     addCustomer: addCustomer,
     updateCustomer: updateCustomer,
-    deleteCustomer: deleteCustomer
+    deleteCustomer: deleteCustomer,
+    deleteAllCustomers: deleteAllCustomers
 }
