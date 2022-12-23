@@ -27,7 +27,7 @@ const getAllCustomers = (req, res) => {
     })
 };
 
-// remove all customers
+// remove all customers for testing
 const deleteAllCustomers = () => {
   db.query('DELETE FROM customers', (err, res) => {
     if (err) {
